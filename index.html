@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo" onclick="scrollToTop()">Delicious Bites</div>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search dishes..."
+          onkeyup="filterMenu()"
+        />
+        <i class="search-icon">🔍</i>
+      </div>
+      <div style="font-size: 20px">Menu</div>
+    </header>
+
+    <nav>
+      <button onclick="scrollToSection('starter')">Starters</button>
+      <button onclick="scrollToSection('main')">Main Course</button>
+      <button onclick="scrollToSection('dessert')">Desserts</button>
+    </nav>
+
+    <div id="starter" class="menu-section">
+      <div class="card" data-name="spring rolls">
+        <div class="category-badge">Vegetarian</div>
+        <img
+          src="images/image.png"
+          alt="Spring Rolls"
+        />
+        <div class="card-body">
+          <h3>Spring Rolls</h3>
+          <p class="description">Crispy rolls stuffed with vegetables.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="tomato soup">
+        <img
+          src="images/image copy.png"
+          alt="Tomato Soup"
+        />
+        <div class="card-body">
+          <h3>Tomato Soup</h3>
+          <p class="description">Rich and creamy tomato soup.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="chilli paneer">
+        <img
+          src="images/image copy 2.png"
+          alt="Chilli Paneer"
+        />
+        <div class="card-body">
+          <h3>Chilli Paneer</h3>
+          <p class="description">Spicy Indo-Chinese cottage cheese delight.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="main" class="menu-section">
+      <div class="card" data-name="paneer butter masala">
+        <img
+          src="images/image copy 3.png"
+          alt="Paneer Butter Masala"
+        />
+        <div class="card-body">
+          <h3>Paneer Butter Masala</h3>
+          <p class="description">Soft paneer cubes in creamy gravy.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="veg biryani">
+        <img
+          src="images/image copy 4.png"
+          alt="Veg Biryani"
+        />
+        <div class="card-body">
+          <h3>Veg Biryani</h3>
+          <p class="description">Spiced rice with mixed vegetables.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="dal makhani">
+        <img
+          src="images/image copy 5.png"
+          alt="Dal Makhani"
+        />
+        <div class="card-body">
+          <h3>Dal Makhani</h3>
+          <p class="description">Creamy black lentils cooked overnight.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="butter naan">
+        <img
+          src="images/image copy 6.png"
+          alt="Butter Naan"
+        />
+        <div class="card-body">
+          <h3>Butter Naan</h3>
+          <p class="description">Fluffy Indian bread with butter topping.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="dessert" class="menu-section">
+      <div class="card" data-name="gulab jamun">
+        <img
+          src="images/image copy 7.png"
+          alt="Gulab Jamun"
+        />
+        <div class="card-body">
+          <h3>Gulab Jamun</h3>
+          <p class="description">Sweet, syrupy dessert balls.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="ice cream">
+        <img
+          src="images/image copy 8.png"
+          alt="Ice Cream"
+        />
+        <div class="card-body">
+          <h3>Ice Cream</h3>
+          <p class="description">Assorted flavors of ice cream.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="rasmalai">
+        <img
+          src="images/image copy 9.png"
+          alt="Rasmalai"
+        />
+        <div class="card-body">
+          <h3>Rasmalai</h3>
+          <p class="description">Soft cheese balls in saffron milk.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+      <div class="card" data-name="kheer">
+        <img
+          src="images/image copy 10.png"
+          alt="Kheer"
+        />
+        <div class="card-body">
+          <h3>Kheer</h3>
+          <p class="description">Sweet rice pudding with dry fruits.</p>
+          <p class="price">₹199</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="noResults" class="no-results" style="display: none;">
+      <h3>No dishes found matching your search</h3>
+      <p>Try a different search term</p>
+    </div>
+
+    <div class="back-to-top" onclick="scrollToTop()">↑</div>
+
+    <script>
+      function initializeNavigation() {
+        const buttons = document.querySelectorAll('nav button');
+        const sections = document.querySelectorAll('.menu-section');
+        
+        // Set first button as active by default
+        buttons[0].classList.add('active');
+
+        // Update active button on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('onclick').includes(current)) {
+                    button.classList.add('active');
+                }
+            });
+        });
+    }
+
+      function scrollToSection(id) {
+        const section = document.getElementById(id);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+          
+          // Update active button
+          document.querySelectorAll('nav button').forEach(btn => {
+              btn.classList.remove('active');
+          });
+          document.querySelector(`button[onclick="scrollToSection('${id}')"]`).classList.add('active');
+        }
+      }
+
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function filterMenu() {
+        const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        const cards = document.querySelectorAll(".card");
+        const noResults = document.getElementById("noResults");
+        let hasResults = false;
+        
+        cards.forEach(card => {
+            const title = card.querySelector("h3").textContent.toLowerCase();
+            const description = card.querySelector(".description").textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = "block";
+                card.style.animation = "fadeIn 0.5s ease";
+                hasResults = true;
+            } else {
+                card.style.display = "none";
+            }
+        });
+        
+        noResults.style.display = hasResults ? "none" : "block";
+      }
+
+      function handleImageLoading() {
+        const images = document.querySelectorAll('.card img');
+        images.forEach(img => {
+            img.addEventListener('load', () => {
+                img.classList.add('loaded');
+            });
+            
+            img.addEventListener('error', () => {
+                img.src = 'images/placeholder.png'; 
+                img.alt = 'Image not available';
+            });
+        });
+      }
+
+      window.onscroll = function() {
+        const backToTop = document.querySelector('.back-to-top');
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeNavigation();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.classList.add('loaded');
+        });
+        handleImageLoading();
+      });
+    </script>
+  </body>
+</html>
